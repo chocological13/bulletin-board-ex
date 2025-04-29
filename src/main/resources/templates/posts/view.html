@@ -1,0 +1,38 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout('View Post', ~{::div})}">
+<body>
+  <div>
+    <div class="card mb-4">
+      <div class="card-header">
+        <h3 th:text="${post.title}" class="card-title">Post Title</h3>
+        <div class="d-flex justify-content-between">
+          <span>Author: <strong th:text="${post.author}">Author Name</strong> </span>
+          <span>Views: <strong th:text="${post.viewCount}">Total Views</strong> </span>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="card-text" th:text="${post.content}">Post content goes here</p>
+      </div>
+      <div class="card-footer text-muted">
+        <div>Created:
+          <span th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}">Created at date goes here
+            with format 'yyyy-MM-dd HH:mm'.</span>
+        </div>
+        <div th:if="${post.modifiedAt}">
+          Modified: <span th:text="${#temporals.format(post.modifiedAt, 'yyyy-MM-dd HH:mm')}">Modified at date goes here
+            with format 'yyyy-MM-dd HH:mm'.</span>
+        </div>
+    </div>
+  </div>
+
+    <div class="d-flex justify-content-between">
+      <a th:href="@{/posts}" class="btn btn-primary">Back to Posts</a>
+      <div>
+        <a th:href="@{/posts/{id}/edit(id=${post.id})}" class="btn btn-primary">Edit Post</a>
+        <a th:href="@{/posts/{id}/delete(id=${post.id})}" class="btn btn-danger">Delete Post</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

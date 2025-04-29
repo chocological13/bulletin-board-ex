@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout('404: Not Found', ~{::div})}">
+<body>
+<div class="text-center">
+  <h2>404 - Post Not Found</h2>
+    <p>The post you are looking for does not exist or has been deleted.</p>
+  <a th:href="@{/posts}" class="btn btn-primary mt-3">Back to Posts</a>
+</div>
+</body>
+</html>
