@@ -1,0 +1,37 @@
+# Server configuration
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+# Spring configuration
+spring:
+  application:
+    name: bulletin
+  config:
+    import: optional:.env.properties
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+  web:
+    resources:
+      static-locations: classpath:/static/
+
+# MyBatis configuration
+mybatis:
+  mapper-locations: classpath:mappers/**/*.xml
+  type-aliases-package: com.finshot.bulletin.model
+  configuration:
+    map-underscore-to-camel-case: true
+
+# Logging
+logging:
+  level:
+    com.finshot.bulletin: DEBUG
+    org.mybatis: DEBUG
