@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout('Posts List', ~{::div})}">
+<body>
+<div>
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Posts</h2>
+    <a th:href="@{api/v1/posts/create}" class="btn btn-primary">Create New Post</a>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-striped table-hover">
+      <thead>
+      <tr>
+        <th>No.</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Views</th>
+        <th>Date</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:if="${posts.empty}">
+        <td colspan="5" class="text-center">No posts available</td>
+      </tr>
+      <tr th:each="post : ${posts}">
+        <td th:text="${post.id}">1</td>
+        <td>
+          <a th:href="@{api/v1/posts/{id}(id=${post.id})}"
+             th:text="${post.title}"
+             class="post-title text-decoration-none">Post Title</a>
+        </td>
+        <td th:text="${post.author}">Author</td>
+        <td th:text="${post.viewCount}">0</td>
+        <td th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}">2025-04-27</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</body>
+</html>
