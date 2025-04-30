@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -31,11 +32,20 @@ public class PostController {
    return "posts/list";
   }
   @GetMapping("/{id}")
-  public String viewPost(@PathVariable Long id, Model model) {
-    Post post = postService.getPostById(id);
+  public String viewPost(@PathVariable Long id,
+      @RequestParam(required = false) boolean fromEdit, Model model) {
+
+    Post post;
+    if (fromEdit) {
+      post = postService.getPostForEdit(id);
+    } else {
+      post = postService.getPostById(id);
+    }
+
     if (post == null) {
       return "error/404";
     }
+
     model.addAttribute("post", post);
     return "posts/view";
   }
@@ -92,6 +102,6 @@ public class PostController {
     }
 
     redirectAttributes.addFlashAttribute("success", "Post modified successfully!");
-    return "redirect:/posts";
+    return "redirect:/posts/" + id + "?fromEdit=true";
   }
 }

@@ -53,7 +53,9 @@
 
     <!--  Submit button -->
     <div class="d-flex gap-2">
-      <a th:href="${isEdit} ? @{/posts/{id}(id=${post.id})} : @{/posts}" class="btn btn-secondary">Cancel</a>
+      <a th:href="${isEdit} ? @{/posts/{id}(id=${post.id}, fromEdit=true)} : @{/posts}"
+         class="btn btn-secondary">Cancel
+      </a>
       <button type="submit" class="btn btn-primary">
         <span th:text="${isEdit} ? 'Update' : 'Create'">Create</span>
       </button>
