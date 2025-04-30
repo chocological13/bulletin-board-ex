@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(${isEdit} ? 'Edit Post' : 'Create Post', ~{::div})}">
+<body>
+<div>
+  <h2 th:text="${isEdit} ? 'Edit Post' : 'Create New Post'">Create New Post</h2>
+
+  <form th:action="${isEdit} ? @{/posts/{id}/edit(id=${post.id})} : @{/posts/create}"
+        th:object="${post}" method="post" class="needs-validation" novalidate>
+
+      <!--  Title -->
+      <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input type="text" class="form-control" id="title" th:field="*{title}" required
+               th:classappend="${#fields.hasErrors('title')} ? 'is-invalid' : ''">
+        <div class="invalid-feedback" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">
+          Title error message here
+        </div>
+    </div>
+
+    <!-- Author (read-only if editing) -->
+    <div class="mb-3">
+      <label for="author" class="form-label">Author</label>
+      <input type="text" class="form-control" id="author" th:field="*{author}" required
+             th:readonly="${isEdit}"
+             th:classappend="${#fields.hasErrors('author')} ? 'is-invalid' : ''">
+      <div class="invalid-feedback" th:if="${#fields.hasErrors('author')}" th:errors="*{author}">
+        Author error message here
+      </div>
+    </div>
+
+    <!--  Password (takes in the raw password)  -->
+    <div class="mb-3">
+      <label for="rawPassword" class="form-label"
+             th:text="${isEdit} ? 'Password (for verification)' : 'Password'">Password</label>
+      <input type="password" class="form-control" id="rawPassword" th:field="*{rawPassword}" required
+             th:classappend="${#fields.hasErrors('rawPassword')} ? 'is-invalid' : ''">
+      <div class="invalid-feedback" th:if="${#fields.hasErrors('rawPassword')}" th:errors="*{rawPassword}">
+        Password error message here
+      </div>
+    </div>
+
+    <!-- Content (read-only if editing) -->
+    <div class="mb-3">
+      <label for="content" class="form-label">Content</label>
+      <input type="text" class="form-control" id="content" th:field="*{content}" required
+             th:readonly="${isEdit}"
+             th:classappend="${#fields.hasErrors('content')} ? 'is-invalid' : ''">
+      <div class="invalid-feedback" th:if="${#fields.hasErrors('content')}" th:errors="*{content}">
+        Content error message here
+      </div>
+    </div>
+
+    <!--  Submit button -->
+    <div class="d-flex gap-2">
+      <a th:href="${isEdit} ? @{/posts/{id}(id=${post.id})} : @{/posts}" class="btn btn-secondary">Cancel</a>
+      <button type="submit" class="btn btn-primary">
+        <span th:text="${isEdit} ? 'Update' : 'Create'">Create</span>
+      </button>
+    </div>
+
+  </form>
+</div>
+
+<script>
+  (function () {
+    'use strict'
+
+    let forms = document.querySelectorAll('.needs-validation');
+
+    Array.prototype.slice.call(forms)
+      .forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+          if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+
+            form.classList.add('was-validated');
+
+        }, false)
+      })
+  })()
+</script>
+
+</body>
+</html>

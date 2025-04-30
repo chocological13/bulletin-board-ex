@@ -5,6 +5,7 @@ import com.finshot.bulletin.posts.mapper.PostMapper;
 import com.finshot.bulletin.posts.service.PostService;
 import java.util.List;
 import lombok.Data;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,10 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostServiceImpl implements PostService {
 
   private final PostMapper postMapper;
+  private final BCryptPasswordEncoder passwordEncoder;
 
-  public PostServiceImpl(PostMapper postMapper) {
-    this.postMapper = postMapper;
-  }
 
   @Override
   public List<Post> getAllPosts() {
@@ -30,6 +29,16 @@ public class PostServiceImpl implements PostService {
     if (post != null) {
       postMapper.incrementViewCount(id);
     }
+    return post;
+  }
+
+  @Override
+  @Transactional
+  public Post createPost(Post post) {
+    // Hash password
+    post.setPassword(passwordEncoder.encode(post.getRawPassword()));
+
+    postMapper.insert(post);
     return post;
   }
 }

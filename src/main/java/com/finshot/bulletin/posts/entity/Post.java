@@ -24,7 +24,6 @@ public class Post {
   @Size(max = 10, message = "Author name must be less than 10 characters")
   private String author;
 
-  @NotBlank(message = "Password is required")
   private String password;
 
   @NotBlank(message = "Content is required")
@@ -39,5 +38,6 @@ public class Post {
   private LocalDateTime deletedAt;
 
   // Non-persistent field for password confirmation
+  @NotBlank(message = "Password is required")
   private String rawPassword;
 }

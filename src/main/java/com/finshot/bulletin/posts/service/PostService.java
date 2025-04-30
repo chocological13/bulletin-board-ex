@@ -7,4 +7,6 @@ public interface PostService {
   List<Post> getAllPosts();
 
   Post getPostById(Long id);
+
+  Post createPost(Post post);
 }
