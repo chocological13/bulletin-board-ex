@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS posts;
 CREATE TABLE posts (
                        id SERIAL PRIMARY KEY,
                        title VARCHAR(100) NOT NULL CHECK (LENGTH(title) <= 100),
-                       author VARCHAR(10) NOT NULL CHECK (LENGTH(author) <= 10),
+                       author VARCHAR(20) NOT NULL CHECK (LENGTH(author) <= 20),
                        password VARCHAR(100) NOT NULL,
                        content TEXT NOT NULL,
                        view_count INTEGER DEFAULT 0,
