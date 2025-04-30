@@ -8,5 +8,9 @@ public interface PostService {
 
   Post getPostById(Long id);
 
-  Post createPost(Post post);
+  Post getPostForEdit(Long id);
+
+  Post createPost(Post newPost);
+
+  boolean updatePost(Post updatedPost);
 }

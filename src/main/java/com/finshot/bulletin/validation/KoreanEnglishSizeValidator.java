@@ -32,7 +32,7 @@ public class KoreanEnglishSizeValidator implements ConstraintValidator<KoreanEng
       }
     }
 
-    // Check ratio of each char types and return false if it exceeds the normalization threshold
+    // Check ratio of each char language and return false if it exceeds the normalization threshold
     double koreanRatio = (double) koreanCount / maxKorean;
     double nonKoreanRatio = (double) nonKoreanCount / maxEnglish;
 

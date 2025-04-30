@@ -25,20 +25,39 @@ public class PostServiceImpl implements PostService {
   @Override
   @Transactional
   public Post getPostById(Long id) {
-    Post post = postMapper.findById(id);
+    Post post = postMapper.findActiveById(id);
     if (post != null) {
       postMapper.incrementViewCount(id);
     }
     return post;
   }
 
+  // Retrieve post without incrementing view
+  @Override
+  public Post getPostForEdit(Long id) {
+    return postMapper.findActiveById(id);
+  }
+
   @Override
   @Transactional
-  public Post createPost(Post post) {
+  public Post createPost(Post newPost) {
     // Hash password
-    post.setPassword(passwordEncoder.encode(post.getRawPassword()));
+    newPost.setPassword(passwordEncoder.encode(newPost.getRawPassword()));
 
-    postMapper.insert(post);
-    return post;
+    postMapper.insert(newPost);
+    return newPost;
   }
+
+  @Override
+  @Transactional
+  public boolean updatePost(Post updatedPost) {
+    String storedHash = postMapper.getPasswordById(updatedPost.getId());
+    if (storedHash != null && passwordEncoder.matches(updatedPost.getRawPassword(), storedHash)) {
+      postMapper.update(updatedPost);
+      return true;
+    }
+    return false;
+  }
+
+
 }

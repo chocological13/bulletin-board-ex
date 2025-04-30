@@ -16,7 +16,7 @@ public interface PostMapper {
   @Select("SELECT * FROM posts WHERE id = #{id}")
   Post findById(Long id);
 
-  @Select("SELECT * FROM post WHERE id = #{id} AND deleted_at IS NULL")
+  @Select("SELECT * FROM posts WHERE id = #{id} AND deleted_at IS NULL")
   Post findActiveById(Long id);
 
   @Insert("INSERT INTO posts (title, author, password, content)"
@@ -24,7 +24,14 @@ public interface PostMapper {
   @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
   int insert(Post post);
 
+  @Update("UPDATE posts "
+          + "SET title = #{title}, content = #{content}, modified_at = CURRENT_TIMESTAMP "
+          + "WHERE id = #{id}")
+  int update(Post post);
+
   @Update("UPDATE posts SET view_count = view_count + 1 WHERE id = #{id}")
   int incrementViewCount(Long id);
 
+  @Select("SELECT password FROM posts WHERE id = #{id} AND deleted_at IS NULL")
+  String getPasswordById(Long id);
 }

@@ -2,7 +2,6 @@ package com.finshot.bulletin.posts.entity;
 
 import com.finshot.bulletin.validation.KoreanEnglishSize;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
