@@ -34,4 +34,5 @@ public interface PostMapper {
 
   @Select("SELECT password FROM posts WHERE id = #{id} AND deleted_at IS NULL")
   String getPasswordById(Long id);
+
 }

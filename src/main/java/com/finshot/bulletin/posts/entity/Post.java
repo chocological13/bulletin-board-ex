@@ -35,7 +35,7 @@ public class Post {
   @NotBlank(message = "Content is required")
   private String content;
 
-  private Integer viewCount;
+  private int viewCount;
 
   private LocalDateTime createdAt;
 

@@ -1,0 +1,28 @@
+spring:
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:sql/test-schema.sql
+      platform: postgresql
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  type-aliases-package: com.finshot.bulletin.posts.entity
+  mapper-locations: classpath:com/finshot/bulletin/posts/mapper/*.xml
+
+logging:
+  level:
+    com:
+      finshot:
+        bulletin: DEBUG
+    org:
+      mybatis: DEBUG

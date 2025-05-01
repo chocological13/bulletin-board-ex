@@ -1,3 +1,4 @@
+-- This file is to initiate the table
 DROP TABLE IF EXISTS posts;
 
 CREATE TABLE posts (
