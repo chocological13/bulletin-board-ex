@@ -36,12 +36,10 @@ public class PostServiceImpl implements PostService {
 
   @Override
   @Transactional
-  public Post createPost(Post newPost) {
+  public boolean createPost(Post newPost) {
     // Hash password
     newPost.setPassword(passwordEncoder.encode(newPost.getRawPassword()));
-
-    postMapper.insert(newPost);
-    return newPost;
+    return postMapper.insert(newPost) != 0;
   }
 
   @Override

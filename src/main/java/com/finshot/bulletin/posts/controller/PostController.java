@@ -60,11 +60,18 @@ public class PostController {
   }
 
   @PostMapping("/create")
-  public String createPost(@Valid @ModelAttribute Post post, BindingResult result) {
+  public String createPost(@Valid @ModelAttribute Post post, BindingResult result, RedirectAttributes redirectAttributes) {
     if (result.hasErrors()) {
       return "posts/form";
     }
-    postService.createPost(post);
+
+    boolean created = postService.createPost(post);
+
+    if (!created) {
+      redirectAttributes.addFlashAttribute("error", "Something went wrong :(");
+      return "redirect:/posts/form";
+    }
+
     return "redirect:/posts";
   }
 

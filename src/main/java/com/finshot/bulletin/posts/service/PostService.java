@@ -10,7 +10,7 @@ public interface PostService {
 
   Post getPostForEdit(Long id);
 
-  Post createPost(Post newPost);
+  boolean createPost(Post newPost);
 
   boolean updatePost(Post updatedPost);
 
