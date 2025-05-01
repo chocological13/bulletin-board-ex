@@ -40,11 +40,10 @@
       </div>
     </div>
 
-    <!-- Content (read-only if editing) -->
+    <!-- Content -->
     <div class="mb-3">
       <label for="content" class="form-label">Content</label>
       <input type="text" class="form-control" id="content" th:field="*{content}" required
-             th:readonly="${isEdit}"
              th:classappend="${#fields.hasErrors('content')} ? 'is-invalid' : ''">
       <div class="invalid-feedback" th:if="${#fields.hasErrors('content')}" th:errors="*{content}">
         Content error message here

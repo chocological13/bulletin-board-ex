@@ -47,8 +47,7 @@ public class PostServiceImpl implements PostService {
   public boolean updatePost(Post updatedPost) {
     String storedHash = postMapper.getPasswordById(updatedPost.getId());
     if (storedHash != null && passwordEncoder.matches(updatedPost.getRawPassword(), storedHash)) {
-      postMapper.update(updatedPost);
-      return true;
+      return postMapper.update(updatedPost) != 0;
     }
     return false;
   }
@@ -57,8 +56,7 @@ public class PostServiceImpl implements PostService {
   public boolean deletePost(Long id, String rawPassword) {
     String storedHash = postMapper.getPasswordById(id);
     if (storedHash != null && passwordEncoder.matches(rawPassword, storedHash)) {
-      postMapper.softDelete(id);
-      return true;
+      return postMapper.softDelete(id) != 0;
     }
     return false;
   }
