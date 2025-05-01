@@ -20,7 +20,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr th:if="${posts.empty}">
+      <tr th:if="${posts.isEmpty()}">
         <td colspan="5" class="text-center">No posts available</td>
       </tr>
       <tr th:each="post : ${posts}">

@@ -5,7 +5,7 @@
 <div>
   <h2 th:text="${isEdit} ? 'Edit Post' : 'Create New Post'">Create New Post</h2>
 
-  <form th:action="${isEdit} ? @{/posts/{id}/edit(id=${post.id})} : @{/posts/create}"
+  <form th:action="${isEdit} ? '/posts/' + ${post.id} + '/edit' : '/posts/create'"
         th:object="${post}" method="post" class="needs-validation" novalidate>
 
       <!--  Title -->
@@ -52,9 +52,9 @@
 
     <!--  Submit button -->
     <div class="d-flex gap-2">
-      <a th:href="${isEdit} ? @{/posts/{id}(id=${post.id}, fromEdit=true)} : @{/posts}"
-         class="btn btn-secondary">Cancel
-      </a>
+      <a th:href="${isEdit} ? '/posts/' + ${post.id} + '?fromEdit=true' : '/posts'"
+         class="btn btn-secondary">Cancel</a>
+
       <button type="submit" class="btn btn-primary">
         <span th:text="${isEdit} ? 'Update' : 'Create'">Create</span>
       </button>
