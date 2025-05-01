@@ -25,17 +25,13 @@ public class PostServiceImpl implements PostService {
   @Override
   @Transactional
   public Post getPostById(Long id) {
-    Post post = postMapper.findActiveById(id);
-    if (post != null) {
-      postMapper.incrementViewCount(id);
-    }
-    return post;
+    return postMapper.findAndIncrementViewCount(id);
   }
 
   // Retrieve post without incrementing view
   @Override
   public Post getPostForEdit(Long id) {
-    return postMapper.findActiveById(id);
+    return postMapper.findById(id);
   }
 
   @Override

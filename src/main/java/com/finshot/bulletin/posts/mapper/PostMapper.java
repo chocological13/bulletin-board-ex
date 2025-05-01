@@ -13,11 +13,11 @@ public interface PostMapper {
   @Select("SELECT * FROM posts WHERE deleted_at IS NULL ORDER BY id DESC")
   List<Post> findAll();
 
-  @Select("SELECT * FROM posts WHERE id = #{id}")
+  @Select("SELECT * FROM posts WHERE id = #{id} AND deleted_at IS NULL")
   Post findById(Long id);
 
-  @Select("SELECT * FROM posts WHERE id = #{id} AND deleted_at IS NULL")
-  Post findActiveById(Long id);
+  @Select("UPDATE posts SET view_count = view_count + 1 WHERE id = #{id} AND deleted_at IS NULL RETURNING *")
+  Post findAndIncrementViewCount(Long id);
 
   @Insert("INSERT INTO posts (title, author, password, content)"
           + "VALUES (#{title}, #{author}, #{password}, #{content})")
@@ -31,9 +31,6 @@ public interface PostMapper {
 
   @Update("UPDATE posts SET deleted_at = CURRENT_TIMESTAMP WHERE id = #{id}")
   int softDelete(Long id);
-
-  @Update("UPDATE posts SET view_count = view_count + 1 WHERE id = #{id}")
-  int incrementViewCount(Long id);
 
   @Select("SELECT password FROM posts WHERE id = #{id} AND deleted_at IS NULL")
   String getPasswordById(Long id);
