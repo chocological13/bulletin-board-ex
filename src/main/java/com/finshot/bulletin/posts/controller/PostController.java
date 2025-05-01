@@ -1,16 +1,17 @@
 package com.finshot.bulletin.posts.controller;
 
 import com.finshot.bulletin.posts.entity.Post;
+import com.finshot.bulletin.posts.entity.dto.DeletePostDto;
 import com.finshot.bulletin.posts.service.PostService;
 import jakarta.validation.Valid;
-import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.Data;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Data
 public class PostController {
 
+  private static final Logger log = LoggerFactory.getLogger(PostController.class);
   private final PostService postService;
 
   @GetMapping
@@ -97,11 +99,45 @@ public class PostController {
     boolean updated = postService.updatePost(post);
 
     if (!updated) {
-      redirectAttributes.addFlashAttribute("error", "Failed to update post");
+      redirectAttributes.addFlashAttribute("error", "Failed to update post: Invalid password");
       return "redirect:/posts/" + id + "/edit";
     }
 
     redirectAttributes.addFlashAttribute("success", "Post modified successfully!");
     return "redirect:/posts/" + id + "?fromEdit=true";
+  }
+
+  @GetMapping("/{id}/delete")
+  public String showDeletePostForm(@PathVariable Long id, Model model) {
+    Post post = postService.getPostForEdit(id);
+    if (post == null) {
+      return "error/404";
+    }
+    model.addAttribute("post", post);
+    model.addAttribute("deletePostDto", new DeletePostDto());
+    return "posts/delete";
+  }
+
+  @PostMapping("/{id}/delete")
+  public String deletePost(@PathVariable Long id, @Valid @ModelAttribute DeletePostDto deletePostDto,
+      BindingResult result, Model model, RedirectAttributes redirectAttributes) {
+
+    Post post = postService.getPostForEdit(id);
+
+    if (result.hasErrors()) {
+      model.addAttribute("post", post);
+      model.addAttribute("deletePost", deletePostDto);
+      return "posts/delete";
+    }
+
+    boolean deleted = postService.deletePost(id, deletePostDto.getRawPassword());
+
+    if (!deleted) {
+      redirectAttributes.addFlashAttribute("error", "Failed to delete post: Invalid password");
+      return "redirect:/posts/" + id + "/delete";
+    }
+
+    redirectAttributes.addFlashAttribute("success", "Post deleted successfully!");
+    return "redirect:/posts";
   }
 }

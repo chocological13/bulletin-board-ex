@@ -13,4 +13,6 @@ public interface PostService {
   Post createPost(Post newPost);
 
   boolean updatePost(Post updatedPost);
+
+  boolean deletePost(Long id, String rawPassword);
 }

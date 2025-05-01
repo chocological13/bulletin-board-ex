@@ -59,5 +59,15 @@ public class PostServiceImpl implements PostService {
     return false;
   }
 
+  @Override
+  public boolean deletePost(Long id, String rawPassword) {
+    String storedHash = postMapper.getPasswordById(id);
+    if (storedHash != null && passwordEncoder.matches(rawPassword, storedHash)) {
+      postMapper.softDelete(id);
+      return true;
+    }
+    return false;
+  }
+
 
 }

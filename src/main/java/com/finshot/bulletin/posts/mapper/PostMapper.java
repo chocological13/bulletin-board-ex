@@ -29,6 +29,9 @@ public interface PostMapper {
           + "WHERE id = #{id}")
   int update(Post post);
 
+  @Update("UPDATE posts SET deleted_at = CURRENT_TIMESTAMP WHERE id = #{id}")
+  int softDelete(Long id);
+
   @Update("UPDATE posts SET view_count = view_count + 1 WHERE id = #{id}")
   int incrementViewCount(Long id);
 

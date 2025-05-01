@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout('Delete Post', ~{::div})}">
+<body>
+  <div>
+    <div class="card border-danger">
+      <div class="card-header bg-danger text-white">
+        <h4 class="card-title">Are you sure you want to delete this post? This action is irreversible.</h4>
+      </div>
+      <div class="card-body">
+
+        <!-- Post preview-->
+        <div class="card mb-4">
+          <div class="card-header bg-secondary-subtle">
+            <h5 class="fs-5">Post preview</h5>
+          </div>
+          <div class="card-body">
+            <div class="d-flex flex-column justify-content-between">
+              <div class="d-flex justify-content-between">
+                <h4 th:text="${post.title}" class="fs-6 text">Post Title</h4>
+                <span class="fs-6 text">Author: <strong th:text="${post.author}">Author Name</strong> </span>
+              </div>
+              <p class="card-text fs-6 text" th:text="${post.content}">Post content goes here</p>
+            </div>
+          </div>
+        </div>
+
+        <form th:action="@{/posts/{id}/delete(id=${post.id})}" th:object="${deletePostDto}" method="post"
+              class="needs-validation" novalidate>
+          <div class="mb-3">
+            <label for="rawPassword" class="form-label">Enter your password to confirm deletion</label>
+            <input type="password" class="form-control" id="rawPassword" th:field="*{rawPassword}" required
+                   th:classappend="${#fields.hasErrors('rawPassword')} ? 'is-invalid' : ''">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('rawPassword')}" th:errors="*{rawPassword}">
+              Password error message here
+            </div>
+          </div>
+
+          <div class="d-flex gap-2 justify-content-end">
+            <a th:href="@{/posts/{id}(id=${post.id}, fromEdit=true)}" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      'use strict'
+
+      let forms = document.querySelectorAll('.needs-validation');
+
+      Array.prototype.slice.call(forms)
+      .forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+          if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+
+          form.classList.add('was-validated');
+
+        }, false)
+      })
+    })()
+  </script>
+</body>
+</html>
