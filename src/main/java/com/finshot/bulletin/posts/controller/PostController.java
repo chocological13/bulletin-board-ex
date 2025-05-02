@@ -72,6 +72,7 @@ public class PostController {
       return "redirect:/posts/form";
     }
 
+    redirectAttributes.addFlashAttribute("success", "Post created successfully!");
     return "redirect:/posts";
   }
 

@@ -141,7 +141,8 @@ public class PostControllerTest {
             .param("rawPassword", "password123")
             .param("content", "New content"))
         .andExpect(status().is3xxRedirection())
-        .andExpect(redirectedUrl("/posts"));
+        .andExpect(redirectedUrl("/posts"))
+        .andExpect(flash().attributeExists("success"));
   }
 
   @Test
