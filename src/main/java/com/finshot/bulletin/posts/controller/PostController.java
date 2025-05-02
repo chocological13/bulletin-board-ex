@@ -6,8 +6,6 @@ import com.finshot.bulletin.posts.service.PostService;
 import jakarta.validation.Valid;
 import java.util.stream.Collectors;
 import lombok.Data;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +23,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Data
 public class PostController {
 
-  private static final Logger log = LoggerFactory.getLogger(PostController.class);
   private final PostService postService;
 
   @GetMapping
