@@ -14,6 +14,7 @@ public class SecurityTestConfig {
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
+        .securityMatcher("/**")
         .csrf(AbstractHttpConfigurer::disable)
         .authorizeHttpRequests(authorize -> authorize
             .anyRequest().permitAll()
